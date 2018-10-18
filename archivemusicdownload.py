@@ -4,10 +4,6 @@ import json
 from urllib import urlretrieve
 from urllib2 import urlopen
 
-# Hopefully this is the final version, with only minor tweaks from now on
-# I originally wrote this with compact-ness in mind but I rewrote it to
-# hopefully make it more readable.
-
 def sanitize(filename):
 	return filename.replace('->', '-]').replace('/', ' - ')
 
@@ -55,7 +51,7 @@ def download(url):
 	if (os.path.isdir(local_download_dir)):
 		print "[..] Found existing directory..."
 		resume = True
-		downloaded_files = os.listdir(os.path.dirname(os.path.realpath(__file__))+'/'+local_download_dir)
+		eownloaded_files = os.listdir(os.path.dirname(os.path.realpath(__file__))+'/'+local_download_dir)
 		downloaded_files.sort()
 		downloaded_files = downloaded_files[0:-1]
 	else:
@@ -69,7 +65,7 @@ def download(url):
 		archive_download_url = metadata['download_base']+link
 		local_filename = link_metadata['local_filename']
 		if resume and local_filename in downloaded_files: continue
-		local_download_name = '{0}/{1}'.format(local_download_dir, local_filename)
+		local_download_name = '{0}/{1}'.format(local_download_dir, local_filename) + ".mp3"
 		print "[..] Downloading {0} ({1}/{2})...".format(local_filename, i, file_count)
 		urlretrieve(archive_download_url, local_download_name)
 
@@ -82,4 +78,6 @@ def main():
 			download(url)
 		except KeyboardInterrupt:
 			print "[!!] CTRL-C, Quitting..."
-main()
+
+if __name__ == "__main__":
+	main()
